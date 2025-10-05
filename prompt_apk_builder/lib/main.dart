@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:prompt_apk_builder/app/bootstrap.dart';
 import 'package:prompt_apk_builder/app/router/app_router.dart';
 import 'package:prompt_apk_builder/app/theme/app_theme.dart';
 
 void main() async {
-  // Load environment variables
-  await dotenv.load(fileName: '.env');
-
-  runApp(
-    const ProviderScope(
-      child: PromptApkBuilderApp(),
-    ),
-  );
+  await bootstrap(() async => const PromptApkBuilderApp());
 }
 
 class PromptApkBuilderApp extends ConsumerWidget {

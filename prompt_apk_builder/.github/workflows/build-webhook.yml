@@ -1,0 +1,80 @@
+# Build Webhook Integration for Supabase Build Tracking
+# This workflow demonstrates how to send build progress updates to Supabase
+
+name: Build with Progress Tracking
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_id:
+        description: 'Build run ID from Supabase'
+        required: true
+        type: string
+      prompt:
+        description: 'Build prompt'
+        required: true
+        type: string
+
+env:
+  BUILD_ID: ${{ github.event.inputs.build_id }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.0'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Mark step (pub_get)
+      if: ${{ env.BUILD_ID != '' && secrets.BUILD_WEBHOOK_URL != '' }}
+      run: |
+        curl -sS -X POST "$BUILD_WEBHOOK_URL" -H 'Content-Type: application/json' \
+          -d "{\"build_id\": \"${{ env.BUILD_ID }}\", \"step\":\"pub_get\",\"step_index\":1,\"status\":\"running\",\"run_id\":\"${{ github.run_id }}\"}" || true
+
+    - name: Analyze code
+      run: flutter analyze
+
+    - name: Mark step (analyze)
+      if: ${{ env.BUILD_ID != '' && secrets.BUILD_WEBHOOK_URL != '' }}
+      run: |
+        curl -sS -X POST "$BUILD_WEBHOOK_URL" -H 'Content-Type: application/json' \
+          -d "{\"build_id\": \"${{ env.BUILD_ID }}\", \"step\":\"analyze\",\"step_index\":2,\"status\":\"running\",\"run_id\":\"${{ github.run_id }}\"}" || true
+
+    - name: Build APK
+      run: flutter build apk --release
+
+    - name: Mark step (build_apk)
+      if: ${{ env.BUILD_ID != '' && secrets.BUILD_WEBHOOK_URL != '' }}
+      run: |
+        curl -sS -X POST "$BUILD_WEBHOOK_URL" -H 'Content-Type: application/json' \
+          -d "{\"build_id\": \"${{ env.BUILD_ID }}\", \"step\":\"build_apk\",\"step_index\":3,\"status\":\"running\",\"run_id\":\"${{ github.run_id }}\"}" || true
+
+    - name: Build AAB
+      run: flutter build appbundle
+
+    - name: Mark step (build_aab)
+      if: ${{ env.BUILD_ID != '' && secrets.BUILD_WEBHOOK_URL != '' }}
+      run: |
+        curl -sS -X POST "$BUILD_WEBHOOK_URL" -H 'Content-Type: application/json' \
+          -d "{\"build_id\": \"${{ env.BUILD_ID }}\", \"step\":\"build_aab\",\"step_index\":4,\"status\":\"running\",\"run_id\":\"${{ github.run_id }}\"}" || true
+
+    # Add upload steps here and mark as completed
+    - name: Mark build complete
+      if: ${{ env.BUILD_ID != '' && secrets.BUILD_WEBHOOK_URL != '' }}
+      run: |
+        curl -sS -X POST "$BUILD_WEBHOOK_URL" -H 'Content-Type: application/json' \
+          -d "{\"build_id\": \"${{ env.BUILD_ID }}\", \"step\":\"completed\",\"step_index\":5,\"status\":\"success\",\"run_id\":\"${{ github.run_id }}\",\"apk_url\":\"https://example.com/apk\",\"aab_url\":\"https://example.com/aab\"}" || true
+
+    - name: Mark build failed
+      if: failure() && env.BUILD_ID != '' && secrets.BUILD_WEBHOOK_URL != ''
+      run: |
+        curl -sS -X POST "$BUILD_WEBHOOK_URL" -H 'Content-Type: application/json' \
+          -d "{\"build_id\": \"${{ env.BUILD_ID }}\", \"step\":\"failed\",\"step_index\":0,\"status\":\"failed\",\"run_id\":\"${{ github.run_id }}\"}" || true
