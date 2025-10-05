@@ -24,7 +24,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       const BuildHistory(
         id: '1',
         prompt: 'Erstelle eine Todo-App mit lokaler Datenspeicherung...',
-        timestamp: '2024-01-15T10:30:00Z',
+        timestamp: 1705312200000, // 2024-01-15T10:30:00Z in milliseconds
         status: 'completed',
         apkUrl: 'https://example.com/app1.apk',
         aabUrl: 'https://example.com/app1.aab',
@@ -33,14 +33,14 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       const BuildHistory(
         id: '2',
         prompt: 'Erstelle eine Chat-App mit WebSocket-Verbindungen...',
-        timestamp: '2024-01-14T15:45:00Z',
+        timestamp: 1705248300000, // 2024-01-14T15:45:00Z in milliseconds
         status: 'failed',
         runUrl: 'https://github.com/user/repo/actions/runs/2',
       ),
       const BuildHistory(
         id: '3',
         prompt: 'Erstelle eine einfache CRUD-App mit Authentifizierung...',
-        timestamp: '2024-01-13T09:20:00Z',
+        timestamp: 1705138800000, // 2024-01-13T09:20:00Z in milliseconds
         status: 'completed',
         apkUrl: 'https://example.com/app3.apk',
         runUrl: 'https://github.com/user/repo/actions/runs/3',
@@ -112,7 +112,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
   Widget _buildHistoryCard(BuildHistory build) {
     final dateFormat = DateFormat('dd.MM.yyyy HH:mm');
-    final timestamp = DateTime.parse(build.timestamp);
+    final timestamp = DateTime.fromMillisecondsSinceEpoch(build.timestamp);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
