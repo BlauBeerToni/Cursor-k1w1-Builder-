@@ -1,0 +1,79 @@
+name: prompt_apk_builder
+description: "Prompt → APK (K1W1 Builder) - Android-only Flutter app that generates APKs from prompts using AI"
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.4.9
+
+  # Navigation
+  go_router: ^13.2.0
+
+  # HTTP Client
+  dio: ^5.4.0
+  pretty_dio_logger: ^1.3.1
+
+  # Secure Storage (Android Keystore)
+  flutter_secure_storage: ^9.0.0
+
+  # Local Preferences
+  shared_preferences: ^2.2.2
+
+  # Environment Variables
+  flutter_dotenv: ^5.1.0
+
+  # JSON Serialization
+  json_serializable: ^6.7.1
+  json_annotation: ^4.8.1
+
+  # Date/Time Utilities
+  intl: ^0.19.0
+
+  # Fonts
+  google_fonts: ^6.1.0
+
+  # Icons
+  cupertino_icons: ^1.0.6
+
+  # Optional: Error Tracking
+  sentry_flutter: ^7.16.0
+
+  # Optional: File operations
+  path_provider: ^2.1.1
+
+  # Optional: URL Launcher for external links
+  url_launcher: ^6.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+  # Build Runner for JSON serialization
+  build_runner: ^2.4.7
+
+  # Code Generation
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env.example
+    - assets/images/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700

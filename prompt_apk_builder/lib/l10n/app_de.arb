@@ -1,0 +1,79 @@
+{
+  "appTitle": "Prompt → APK (K1W1 Builder)",
+  "appDescription": "Erstelle Android-Apps aus Prompts mit KI",
+
+  "onboardingTitle": "Willkommen beim APK Builder",
+  "onboardingDescription": "Erstelle vollständige Android-Apps einfach durch Eingabe von Prompts. Die KI generiert den Code und baut die APK automatisch.",
+  "onboardingGetStarted": "Jetzt starten",
+
+  "homeTitle": "App Builder",
+  "homePromptPlaceholder": "Beschreibe deine gewünschte App hier...",
+  "homeGenerateBuild": "Generieren & Bauen",
+  "homeAdvancedSettings": "Erweiterte Einstellungen",
+
+  "settingsTitle": "Einstellungen",
+  "settingsGitHubToken": "GitHub Token",
+  "settingsGitHubRepo": "GitHub Repository",
+  "settingsGitHubBranch": "GitHub Branch",
+  "settingsBackendUrl": "Backend URL",
+  "settingsAiProvider": "KI-Anbieter",
+  "settingsAiModel": "KI-Modell",
+  "settingsOpenaiApiKey": "OpenAI API Key",
+  "settingsAnthropicApiKey": "Anthropic API Key",
+  "settingsHfApiKey": "Hugging Face API Key",
+  "settingsOllamaEndpoint": "Ollama Endpoint",
+  "settingsIsPublicRepo": "Öffentliches Repository",
+  "settingsSave": "Speichern",
+  "settingsTestConnection": "Verbindung testen",
+
+  "statusTitle": "Build Status",
+  "statusQueued": "In Warteschlange",
+  "statusRunning": "Wird ausgeführt",
+  "statusCompleted": "Abgeschlossen",
+  "statusFailed": "Fehlgeschlagen",
+  "statusProgress": "Fortschritt",
+  "statusEta": "Verbleibende Zeit",
+  "statusLogs": "Logs",
+  "statusDownloadApk": "APK herunterladen",
+  "statusDownloadAab": "AAB herunterladen",
+  "statusViewRun": "Build ansehen",
+
+  "historyTitle": "Build-Verlauf",
+  "historyNoBuilds": "Keine Builds vorhanden",
+  "historyRetry": "Erneut versuchen",
+
+  "commonCancel": "Abbrechen",
+  "commonRetry": "Wiederholen",
+  "commonSave": "Speichern",
+  "commonDelete": "Löschen",
+  "commonEdit": "Bearbeiten",
+  "commonClose": "Schließen",
+  "commonLoading": "Lädt...",
+  "commonError": "Fehler",
+  "commonSuccess": "Erfolg",
+  "commonWarning": "Warnung",
+  "commonInfo": "Info",
+
+  "errorGeneric": "Ein Fehler ist aufgetreten",
+  "errorNetwork": "Netzwerkfehler",
+  "errorInvalidInput": "Ungültige Eingabe",
+  "errorPermissionDenied": "Zugriff verweigert",
+
+  "aiProviders": {
+    "openai": "OpenAI",
+    "anthropic": "Anthropic",
+    "huggingface": "Hugging Face",
+    "ollama": "Ollama"
+  },
+
+  "buildSteps": {
+    "queued": "In Warteschlange",
+    "checkout": "Code abrufen",
+    "pubGet": "Abhängigkeiten installieren",
+    "format": "Code formatieren",
+    "analyze": "Code analysieren",
+    "buildApk": "APK bauen",
+    "signAab": "AAB signieren",
+    "upload": "Hochladen"
+  }
+}
