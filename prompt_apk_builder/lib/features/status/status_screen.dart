@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:prompt_apk_builder/app/providers/providers.dart';
+import 'package:prompt_apk_builder/features/builds/build_runs_service.dart';
+import 'package:prompt_apk_builder/features/builds/model/build_run.dart';
 
 class StatusScreen extends ConsumerStatefulWidget {
   const StatusScreen({super.key});
@@ -12,10 +13,28 @@ class StatusScreen extends ConsumerStatefulWidget {
 class _StatusScreenState extends ConsumerState<StatusScreen> {
   final List<String> _logs = [];
   final ScrollController _scrollController = ScrollController();
+  String? _currentBuildId;
 
   @override
   void initState() {
     super.initState();
+    _startBuild();
+  }
+
+  Future<void> _startBuild() async {
+    // In a real implementation, you would get this from navigation arguments
+    // For demo purposes, we'll simulate creating a build
+    setState(() {
+      _logs.add('Build wird gestartet...');
+    });
+
+    // Simulate build creation and progress
+    await Future.delayed(const Duration(seconds: 1));
+
+    // In real usage, you would create the build through the service
+    // final buildId = await BuildRunsService().createRun(...);
+    // Then watch the build progress
+
     _simulateBuildProgress();
   }
 
@@ -58,8 +77,6 @@ class _StatusScreenState extends ConsumerState<StatusScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final buildState = ref.watch(buildStateProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Build Status'),
@@ -85,14 +102,14 @@ class _StatusScreenState extends ConsumerState<StatusScreen> {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      '${(buildState.progress * 100).toInt()}%',
+                      '${(_calculateProgress() * 100).toInt()}%',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 LinearProgressIndicator(
-                  value: buildState.progress,
+                  value: _calculateProgress(),
                   minHeight: 8,
                 ),
                 const SizedBox(height: 8),
@@ -175,7 +192,7 @@ class _StatusScreenState extends ConsumerState<StatusScreen> {
           ),
 
           // Result Actions
-          if (buildState.status == 'completed') ...[
+          if (_isBuildCompleted()) ...[
             Container(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -320,16 +337,26 @@ class _StatusScreenState extends ConsumerState<StatusScreen> {
     }
   }
 
-  String _calculateETA() {
-    // Simple ETA calculation based on progress
-    if (buildState.progress == 0) return 'Berechnung...';
-    if (buildState.progress >= 1) return 'Fertig';
+  double _calculateProgress() {
+    // Calculate progress based on logs length vs total expected steps
+    const totalSteps = 7; // Based on our simulation steps
+    return (_logs.length / totalSteps).clamp(0.0, 1.0);
+  }
 
-    final remaining = (1 - buildState.progress) * 5; // Assume 5 minutes total
+  String _calculateETA() {
+    final progress = _calculateProgress();
+    if (progress == 0) return 'Berechnung...';
+    if (progress >= 1) return 'Fertig';
+
+    final remaining = (1 - progress) * 5; // Assume 5 minutes total
     final minutes = remaining.toInt();
     final seconds = ((remaining - minutes) * 60).toInt();
 
     return '${minutes}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  bool _isBuildCompleted() {
+    return _logs.contains('Build abgeschlossen!');
   }
 
   void _copyLogs() {

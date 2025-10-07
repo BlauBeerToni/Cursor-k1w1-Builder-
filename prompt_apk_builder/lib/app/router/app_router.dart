@@ -16,7 +16,6 @@ final routerProvider = Provider<GoRouter>((ref) {
 class AppRouter {
   static const String onboarding = '/onboarding';
   static const String home = '/';
-  static const String builder = '/builder';
   static const String status = '/status';
   static const String settings = '/settings';
   static const String history = '/history';
@@ -31,10 +30,6 @@ class AppRouter {
       GoRoute(
         path: home,
         builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: builder,
-        builder: (context, state) => const BuilderScreen(),
       ),
       GoRoute(
         path: status,

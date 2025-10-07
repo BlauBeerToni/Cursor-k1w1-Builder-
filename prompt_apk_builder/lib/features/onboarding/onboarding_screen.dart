@@ -86,7 +86,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   onPressed: () {
                     if (_currentPage == _pages.length - 1) {
                       // Navigate to home screen
-                      context.go('/home');
+                      context.go('/');
                     } else {
                       _pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
@@ -106,7 +106,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    context.go('/home');
+                    context.go('/');
                   },
                   child: const Text('Überspringen'),
                 ),
